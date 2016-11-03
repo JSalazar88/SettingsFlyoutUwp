@@ -22,51 +22,77 @@
 			Command="{Binding ElementName=MainPageView, Path=OpenCommand, Mode=TwoWay}">
 			<FlyoutBase.AttachedFlyout>
 				<Flyout
+					Header
 					local:FlyoutDialogHelper.IsOpen="{Binding ElementName=MainPageView, Path=IsOpen, Mode=TwoWay}"
 					local:FlyoutDialogHelper.Parent="{Binding ElementName=button}">
-					<RelativePanel>
-						<ListView ItemsSource="{x:Bind Libraries}" RelativePanel.AlignLeftWithPanel="True" Margin="0,0,0,0">
-							<ListView.ItemTemplate>
-								<DataTemplate x:DataType="local:LibraryItem" x:Name="libItemTemplate">
-									<RelativePanel>
-										<CheckBox 
-										x:Name="libCheckbox"
-										RelativePanel.AlignLeftWithPanel="True"
-										VerticalAlignment="Center"
-										Content=""
-										MinWidth="30"
-										Width="30"
-										Margin="0,2,2,0"
-										HorizontalAlignment="Center"
-										Command="{Binding OpenCommand, Mode=TwoWay}">
-											<FlyoutBase.AttachedFlyout>
-												<Flyout
-													local:FlyoutDialogHelper.IsOpen="{Binding Path=DataContext.IsOpen, Mode=TwoWay}"
-													local:FlyoutDialogHelper.Parent="{Binding ElementName=libCheckbox}"
-													>
-													<ListView ItemsSource="{Binding ElementName=MainPageView, Path=Libraries}">
-														<ListView.ItemTemplate>
-															<DataTemplate x:DataType="local:LibraryItem">
-																<TextBlock Text="{x:Bind LibraryName}"/>
-															</DataTemplate>
-														</ListView.ItemTemplate>
-													</ListView>
-												</Flyout>
-											</FlyoutBase.AttachedFlyout>
-										</CheckBox>
-										
-										<TextBlock 
+					<Grid>
+						
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+
+						<TextBlock Grid.Row="0" Text="Symbol Libraries and Filters"/>
+
+						<Grid Grid.Row="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="AgeButton" Content="Age" Grid.Row="0" Grid.Column="0"/>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="GenderButton" Content="Gender" Grid.Row="0" Grid.Column="1"/>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="WarningButton" Content="Warning" Grid.Row="0" Grid.Column="2"/>
+						</Grid>
+						
+						<RelativePanel Grid.Row="2">
+							<ListView ItemsSource="{x:Bind Libraries}" RelativePanel.AlignLeftWithPanel="True" Margin="0,0,0,0">
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="local:LibraryItem" x:Name="libItemTemplate">
+										<RelativePanel>
+											<CheckBox 
+											x:Name="libCheckbox"
+											RelativePanel.AlignLeftWithPanel="True"
+											VerticalAlignment="Center"
+											Content=""
+											MinWidth="30"
+											Width="30"
+											Margin="0,2,2,0"
+											HorizontalAlignment="Center"
+											Command="{Binding OpenCommand, Mode=TwoWay}">
+												<FlyoutBase.AttachedFlyout>
+													<Flyout
+														local:FlyoutDialogHelper.IsOpen="{Binding Path=DataContext.IsOpen, Mode=TwoWay}"
+														local:FlyoutDialogHelper.Parent="{Binding ElementName=libCheckbox}"
+														>
+														<ListView ItemsSource="{Binding ElementName=MainPageView, Path=Libraries}">
+															<ListView.ItemTemplate>
+																<DataTemplate x:DataType="local:LibraryItem">
+																	<TextBlock Text="{x:Bind LibraryName}"/>
+																</DataTemplate>
+															</ListView.ItemTemplate>
+														</ListView>
+													</Flyout>
+												</FlyoutBase.AttachedFlyout>
+											</CheckBox>
+
+											<TextBlock 
 										x:Name="libDisplayName"  
 										Text="{x:Bind LibraryName}" 
 										RelativePanel.RightOf="libCheckbox"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Center"
 										/>
-									</RelativePanel>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
-					</RelativePanel>
+										</RelativePanel>
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</RelativePanel>
+					</Grid>
 				</Flyout>
 			</FlyoutBase.AttachedFlyout>
 			<i:Interaction.Behaviors>
@@ -75,6 +101,5 @@
 				</core:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</Button>
-		<callisto:SettingsFlyout></callisto:SettingsFlyout>
 	</Grid>
 </Page>

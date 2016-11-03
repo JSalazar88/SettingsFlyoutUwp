@@ -30,7 +30,7 @@ namespace App1
     {
 		public List<LibraryItem> Libraries { get; set; } = new List<LibraryItem>()
 		{
-			new LibraryItem("Some Super long library name"),
+			new LibraryItem("Some Super Ultra Long library display name"),
 			new LibraryItem("Lib0"),
 			new LibraryItem("Lib0"),
 
