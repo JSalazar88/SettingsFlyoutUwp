@@ -1,0 +1,80 @@
+﻿<Page
+	x:Name="MainPageView"
+    x:Class="App1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App1"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:callisto="using:Callisto.Controls"
+    mc:Ignorable="d">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Button 
+			x:Name="button" 
+			Content="Button" 
+			HorizontalAlignment="Stretch"
+			Height="42" 
+			Margin="112,0,144,240" 
+			VerticalAlignment="Bottom"
+			Command="{Binding ElementName=MainPageView, Path=OpenCommand, Mode=TwoWay}">
+			<FlyoutBase.AttachedFlyout>
+				<Flyout
+					local:FlyoutDialogHelper.IsOpen="{Binding ElementName=MainPageView, Path=IsOpen, Mode=TwoWay}"
+					local:FlyoutDialogHelper.Parent="{Binding ElementName=button}">
+					<RelativePanel>
+						<ListView ItemsSource="{x:Bind Libraries}" RelativePanel.AlignLeftWithPanel="True" Margin="0,0,0,0">
+							<ListView.ItemTemplate>
+								<DataTemplate x:DataType="local:LibraryItem" x:Name="libItemTemplate">
+									<RelativePanel>
+										<CheckBox 
+										x:Name="libCheckbox"
+										RelativePanel.AlignLeftWithPanel="True"
+										VerticalAlignment="Center"
+										Content=""
+										MinWidth="30"
+										Width="30"
+										Margin="0,2,2,0"
+										HorizontalAlignment="Center"
+										Command="{Binding OpenCommand, Mode=TwoWay}">
+											<FlyoutBase.AttachedFlyout>
+												<Flyout
+													local:FlyoutDialogHelper.IsOpen="{Binding Path=DataContext.IsOpen, Mode=TwoWay}"
+													local:FlyoutDialogHelper.Parent="{Binding ElementName=libCheckbox}"
+													>
+													<ListView ItemsSource="{Binding ElementName=MainPageView, Path=Libraries}">
+														<ListView.ItemTemplate>
+															<DataTemplate x:DataType="local:LibraryItem">
+																<TextBlock Text="{x:Bind LibraryName}"/>
+															</DataTemplate>
+														</ListView.ItemTemplate>
+													</ListView>
+												</Flyout>
+											</FlyoutBase.AttachedFlyout>
+										</CheckBox>
+										
+										<TextBlock 
+										x:Name="libDisplayName"  
+										Text="{x:Bind LibraryName}" 
+										RelativePanel.RightOf="libCheckbox"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										/>
+									</RelativePanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</RelativePanel>
+				</Flyout>
+			</FlyoutBase.AttachedFlyout>
+			<i:Interaction.Behaviors>
+				<core:EventTriggerBehavior EventName="Tapped">
+					<core:InvokeCommandAction Command="{Binding OpenCommand}" />
+				</core:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
+		</Button>
+		<callisto:SettingsFlyout></callisto:SettingsFlyout>
+	</Grid>
+</Page>
