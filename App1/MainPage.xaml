@@ -32,7 +32,7 @@
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
 
-						<TextBlock Grid.Row="0" Text="Symbol Libraries and Filters"/>
+						<TextBlock Grid.Row="0" Text="Symbol Libraries and Filters" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold"/>
 
 						<Grid Grid.Row="1">
 							<Grid.RowDefinitions>
