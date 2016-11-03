@@ -43,9 +43,39 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
-							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="AgeButton" Content="Age" Grid.Row="0" Grid.Column="0"/>
-							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="GenderButton" Content="Gender" Grid.Row="0" Grid.Column="1"/>
-							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="WarningButton" Content="Warning" Grid.Row="0" Grid.Column="2"/>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="AgeButton" Content="Age" Grid.Row="0" Grid.Column="0">
+								<Button.Flyout>
+									<Flyout>
+										<StackPanel>
+											<TextBlock Text="Age1"/>
+											<TextBlock Text="Age2"/>
+											<TextBlock Text="Age3"/>
+										</StackPanel>
+									</Flyout>
+								</Button.Flyout>
+							</Button>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="GenderButton" Content="Gender" Grid.Row="0" Grid.Column="1">
+								<Button.Flyout>
+									<Flyout>
+										<StackPanel>
+											<TextBlock Text="Gender1"/>
+											<TextBlock Text="Gender2"/>
+											<TextBlock Text="Gender3"/>
+										</StackPanel>
+									</Flyout>
+								</Button.Flyout>
+							</Button>
+							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="WarningButton" Content="Warning" Grid.Row="0" Grid.Column="2">
+								<Button.Flyout>
+									<Flyout>
+										<StackPanel>
+											<TextBlock Text="Warning1"/>
+											<TextBlock Text="Warning2"/>
+											<TextBlock Text="Warning3"/>
+										</StackPanel>
+									</Flyout>
+								</Button.Flyout>
+							</Button>
 						</Grid>
 						
 						<RelativePanel Grid.Row="2">
