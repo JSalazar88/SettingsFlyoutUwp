@@ -22,7 +22,6 @@
 			Command="{Binding ElementName=MainPageView, Path=OpenCommand, Mode=TwoWay}">
 			<FlyoutBase.AttachedFlyout>
 				<Flyout
-					Header
 					local:FlyoutDialogHelper.IsOpen="{Binding ElementName=MainPageView, Path=IsOpen, Mode=TwoWay}"
 					local:FlyoutDialogHelper.Parent="{Binding ElementName=button}">
 					<Grid>
