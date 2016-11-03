@@ -25,7 +25,7 @@
 					local:FlyoutDialogHelper.IsOpen="{Binding ElementName=MainPageView, Path=IsOpen, Mode=TwoWay}"
 					local:FlyoutDialogHelper.Parent="{Binding ElementName=button}">
 					<Grid>
-						
+
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
@@ -65,19 +65,13 @@
 									</Flyout>
 								</Button.Flyout>
 							</Button>
-							<Button Margin="1,0,1,0" HorizontalAlignment="Stretch" x:Name="WarningButton" Content="Warning" Grid.Row="0" Grid.Column="2">
-								<Button.Flyout>
-									<Flyout>
-										<StackPanel>
-											<TextBlock Text="Warning1"/>
-											<TextBlock Text="Warning2"/>
-											<TextBlock Text="Warning3"/>
-										</StackPanel>
-									</Flyout>
-								</Button.Flyout>
-							</Button>
+							<ComboBox Grid.Row="0" Grid.Column="2">
+								<ComboBoxItem Content="Test1"/>
+								<ComboBoxItem Content="Test2"/>
+							</ComboBox>
+							<!--<FontIcon Grid.Row="0" Grid.Column="2" Glyph="&#xE0E5;"></FontIcon>-->
 						</Grid>
-						
+
 						<RelativePanel Grid.Row="2">
 							<ListView ItemsSource="{x:Bind Libraries}" RelativePanel.AlignLeftWithPanel="True" Margin="0,0,0,0">
 								<ListView.ItemTemplate>
