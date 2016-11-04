@@ -89,7 +89,7 @@
 											<TextBlock
 											x:Name="libDisplayName"
 											Text="{x:Bind LibraryName}"
-											RelativePanel.RightOf="libCheckbox"
+											RelativePanel.AlignRightWithPanel="True"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Center"/>
 										</RelativePanel>
@@ -111,7 +111,7 @@
 											<TextBlock
 											x:Name="libDisplayName2"
 											Text="{x:Bind LibraryName}"
-											RelativePanel.RightOf="libCheckbox2"
+											RelativePanel.AlignRightWithPanel="True"
 											HorizontalAlignment="Left"
 											VerticalAlignment="Center"/>
 										</RelativePanel>

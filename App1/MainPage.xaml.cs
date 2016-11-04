@@ -1,6 +1,7 @@
 ﻿using Callisto.TestApp.SamplePages;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI;
@@ -20,7 +21,7 @@ namespace App1
 	/// </summary>
 	public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-		public List<LibraryItem> Libraries { get; set; } = new List<LibraryItem>()
+		public ObservableCollection<LibraryItem> Libraries { get; set; } = new ObservableCollection<LibraryItem>()
 		{
 			new LibraryItem("Some Super Ultra Long library display name"),
 			new LibraryItem("Lib0"),
