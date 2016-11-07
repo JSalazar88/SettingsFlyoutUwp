@@ -51,8 +51,18 @@ namespace App1
 			}
 		}
 
+		public List<string> FlyoutSourceItems { get; set; } = new List<string>()
+		{
+			"First String",
+			"Second String",
+			"Third String",
+		};
+
+		public string FlyoutLabelItem { get; set; } = "BoundFlyoutLabel";
+
 		public System.Windows.Input.ICommand OpenCommand { get; set; }
 		public System.Windows.Input.ICommand CloseCommand { get; set; }
+		public System.Windows.Input.ICommand OpenFlyoutCommand { get; set; }
 
 		public MainPage()
         {
@@ -71,11 +81,10 @@ namespace App1
 			}
 			);
 			CloseCommand = new RelayCommand(obj => true, (obj) => this.IsOpen = false);
-		}
+			OpenFlyoutCommand = new RelayCommand(obj => true, (obj) =>
+			{
 
-		private void button_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+			});
 		}
 	}
 

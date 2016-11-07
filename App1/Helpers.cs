@@ -7,6 +7,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -20,12 +21,13 @@ namespace App1
 	/// </summary>
 	public static class FlyoutDialogHelper
 	{
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// IsOpen
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
 		public static readonly DependencyProperty IsVisibleProperty = DependencyProperty.RegisterAttached(
 			"IsOpen", typeof(bool), typeof(FlyoutDialogHelper),
 			new PropertyMetadata(true, IsOpenChangedCallback));
-
-		public static readonly DependencyProperty ParentProperty = DependencyProperty.RegisterAttached(
-			"Parent", typeof(FrameworkElement), typeof(FlyoutDialogHelper), null);
 
 		public static void SetIsOpen(DependencyObject element, bool value)
 		{
@@ -35,16 +37,6 @@ namespace App1
 		public static bool GetIsOpen(DependencyObject element)
 		{
 			return (bool)element.GetValue(IsVisibleProperty);
-		}
-
-		public static void SetParent(DependencyObject element, FrameworkElement value)
-		{
-			element.SetValue(ParentProperty, value);
-		}
-
-		public static FrameworkElement GetParent(DependencyObject element)
-		{
-			return (FrameworkElement)element.GetValue(ParentProperty);
 		}
 
 		private static void IsOpenChangedCallback(DependencyObject d,
@@ -66,10 +58,176 @@ namespace App1
 			}
 		}
 
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// Parent
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
+		public static readonly DependencyProperty ParentProperty = DependencyProperty.RegisterAttached(
+			"Parent", typeof(FrameworkElement), typeof(FlyoutDialogHelper), null);
+
+		public static void SetParent(DependencyObject element, FrameworkElement value)
+		{
+			element.SetValue(ParentProperty, value);
+		}
+
+		public static FrameworkElement GetParent(DependencyObject element)
+		{
+			return (FrameworkElement)element.GetValue(ParentProperty);
+		}
+
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// FlyouSourceList
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
+		public static readonly DependencyProperty FlyoutSourceListProperty = DependencyProperty.RegisterAttached(
+			"FlyoutSourceList", typeof(List<string>), typeof(FlyoutDialogHelper),
+			new PropertyMetadata(null, FlyoutSourceListChangedCallback));
+
+		public static void SetFlyoutSourceList(DependencyObject element, List<string> value)
+		{
+			element.SetValue(FlyoutSourceListProperty, value);
+		}
+
+		public static List<string> GetFlyoutSourceList(DependencyObject element)
+		{
+			return (List<string>)element.GetValue(FlyoutSourceListProperty);
+		}
+
+		private static void FlyoutSourceListChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			Debug.WriteLine("");
+		}
+
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// Helper methods
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
 		private static void flyout_Closed(object sender, object e)
 		{
 			// When flyout is closed, sets IsOpen
 			SetIsOpen(sender as DependencyObject, false);
+		}
+	}
+
+	/// <summary>/// Attached Property for sharing a set of VisualStateGroups between elements/// </summary>
+	public class VisualStateExtensions : DependencyObject
+	{
+		public static void SetVisualStatefromTemplate(UIElement element, DataTemplate value)
+		{
+			element.SetValue(VisualStatefromTemplateProperty, value);
+		}
+		public static DataTemplate GetVisualStatefromTemplate(UIElement element)
+		{
+			return (DataTemplate)element.GetValue(VisualStatefromTemplateProperty);
+		}
+		public static readonly DependencyProperty VisualStatefromTemplateProperty =
+		  DependencyProperty.RegisterAttached("VisualStatefromTemplate",
+			  typeof(DataTemplate), typeof(VisualStateExtensions), new PropertyMetadata(null, VisualStatefromTemplateChanged));
+
+		private static void VisualStatefromTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var visualstategroups = VisualStateManager.GetVisualStateGroups(d as Grid);
+			var template = (DataTemplate)e.NewValue;
+			var content = ((FrameworkElement)template.LoadContent()) as Grid;
+			var source = VisualStateManager.GetVisualStateGroups(content);
+			var original = source.First();
+			source.RemoveAt(0);
+
+			visualstategroups.Add(original);
+		}
+	}
+
+	/// <summary>/// Helper class to set an attached property, from within a style property setter, to some local property/// </summary>
+	public class BindingHelper
+	{
+		public static readonly DependencyProperty GridColumnBindingPathProperty =
+			DependencyProperty.RegisterAttached(
+				"GridColumnBindingPath", typeof(string), typeof(BindingHelper),
+				new PropertyMetadata(null, GridBindingPathPropertyChanged));
+
+		public static readonly DependencyProperty GridRowBindingPathProperty =
+			DependencyProperty.RegisterAttached(
+				"GridRowBindingPath", typeof(string), typeof(BindingHelper),
+				new PropertyMetadata(null, GridBindingPathPropertyChanged));
+
+		public static string GetGridColumnBindingPath(DependencyObject obj)
+		{
+			return (string)obj.GetValue(GridColumnBindingPathProperty);
+		}
+
+		public static void SetGridColumnBindingPath(DependencyObject obj, string value)
+		{
+			obj.SetValue(GridColumnBindingPathProperty, value);
+		}
+
+		public static string GetGridRowBindingPath(DependencyObject obj)
+		{
+			return (string)obj.GetValue(GridRowBindingPathProperty);
+		}
+
+		public static void SetGridRowBindingPath(DependencyObject obj, string value)
+		{
+			obj.SetValue(GridRowBindingPathProperty, value);
+		}
+
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// FlyouSourceList
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
+		public static readonly DependencyProperty FlyoutSourceBindingPathProperty =
+			DependencyProperty.RegisterAttached(
+			"FlyoutSourceBindingPath", typeof(string), typeof(BindingHelper),
+			new PropertyMetadata(null, FlyoutSourceBindingPathChangedCallback));
+
+		public static void SetFlyoutSourceBindingPath(DependencyObject element, string value)
+		{
+			element.SetValue(FlyoutSourceBindingPathProperty, value);
+		}
+
+		public static string GetFlyoutSourceBindingPathList(DependencyObject element)
+		{
+			return (string)element.GetValue(FlyoutSourceBindingPathProperty);
+		}
+
+		private static void FlyoutSourceBindingPathChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var propertyPath = e.NewValue as string;
+
+			if (propertyPath != null)
+			{
+				var property =
+					e.Property == FlyoutSourceBindingPathProperty
+					? ListView.ItemsSourceProperty
+					: null;
+
+				BindingOperations.SetBinding(
+					d,
+					property,
+					new Binding { Path = new PropertyPath(propertyPath) });
+			}
+		}
+
+		// ////////////////////////////////////////////////////////////////////////////////////////
+		// Helper methods
+		// ////////////////////////////////////////////////////////////////////////////////////////
+
+		private static void GridBindingPathPropertyChanged(
+			DependencyObject obj, DependencyPropertyChangedEventArgs e)
+		{
+			var propertyPath = e.NewValue as string;
+
+			if (propertyPath != null)
+			{
+				var gridProperty =
+					e.Property == GridColumnBindingPathProperty
+					? Grid.ColumnProperty
+					: Grid.RowProperty;
+
+				BindingOperations.SetBinding(
+					obj,
+					gridProperty,
+					new Binding { Path = new PropertyPath(propertyPath) });
+			}
 		}
 	}
 }
